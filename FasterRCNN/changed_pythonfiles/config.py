@@ -91,17 +91,18 @@ _C.TRAINER = 'replicated'  # options: 'horovod', 'replicated'
 _C.MODE_MASK = False        # Faster R-CNN or Mask R-CNN
 _C.MODE_FPN = True
 
+# changed xiaoying !!!
 # dataset -----------------------
-_C.DATA.BASEDIR ='/home/alg/xiaoying.zhang/faster_rcnn_debug/tensorpack_v0.10.1_voc/voc2012_right_version' # !!xiaoying
+_C.DATA.BASEDIR ='/home/alg/xiaoying.zhang/faster_rcnn_debug/tensorpack_v0.10.1_voc/voc2012_right_version' # your code
 # All available dataset names are defined in `dataset/coco.py:register_coco`.
 # All TRAIN dataset will be concatenated for training.
-_C.DATA.TRAIN = ('coco_voctrain2012',)   # !!xiaoying # i.e. trainval35k
+_C.DATA.TRAIN = ('coco_voctrain2012',) # i.e. trainval35k
 # Each VAL dataset will be evaluated separately (instead of concatenated)
-_C.DATA.VAL = ('coco_vocval2012',)  # !!xiaoying # AKA minival2014
-
+_C.DATA.VAL = ('coco_vocval2012',) # AKA minival2014
 # These two configs will be populated later inside `finalize_configs`.
-_C.DATA.NUM_CATEGORY = 20  # without the background class (e.g., 80 for COCO) # !!!xiaoying default -1
+_C.DATA.NUM_CATEGORY = 20  # without the background class (e.g., 80 for COCO) 
 _C.DATA.CLASS_NAMES = []  # NUM_CLASS (NUM_CATEGORY+1) strings, the first is "BG".
+# !!!
 
 # whether the coordinates in your registered dataset are
 # absolute pixel values in range [0, W or H] or relative values in [0, 1]
@@ -111,15 +112,17 @@ _C.DATA.FILTER_EMPTY_ANNOTATIONS = True
 # Number of data loading workers.
 # In case of horovod training, this is the number of workers per-GPU (so you may want to use a smaller number).
 # Set to 0 to disable parallel data loading
-_C.DATA.NUM_WORKERS = 10 # !!!xiaoying defaul 10
+_C.DATA.NUM_WORKERS = 10 
 
+# changed xiaoying !!!
 # backbone ----------------------
-_C.BACKBONE.WEIGHTS = '/home/alg/xiaoying.zhang/faster_rcnn_debug/tensorpack/examples/FasterRCNN/input/pretrain/ImageNet-R50-AlignPadding.npz'
+_C.BACKBONE.WEIGHTS = '/home/alg/xiaoying.zhang/faster_rcnn_debug/tensorpack/examples/FasterRCNN/input/pretrain/ImageNet-R50-AlignPadding.npz' # pretrain backbone
 # To train from scratch, set it to empty, and set FREEZE_AT to 0
 # To train from ImageNet pre-trained models, use the one that matches your
 #   architecture from http://models.tensorpack.com under the 'FasterRCNN' section.
 # To train from an existing COCO model, use the path to that file, and change
 #   the other configurations according to that model.
+# !!!
 
 _C.BACKBONE.RESNET_NUM_BLOCKS = [3, 4, 6, 3]     # for resnet50
 # RESNET_NUM_BLOCKS = [3, 4, 23, 3]    # for resnet101
@@ -140,10 +143,18 @@ _C.BACKBONE.STRIDE_1X1 = False  # True for MSRA models
 # schedule -----------------------
 _C.TRAIN.NUM_GPUS = None         # by default, will be set from code
 _C.TRAIN.WEIGHT_DECAY = 1e-4
+
+# changed xiaoying !!!
 _C.TRAIN.BASE_LR = 1e-3  # defined for total batch size=8. Otherwise it will be adjusted automatically
+# !!!
+
 _C.TRAIN.WARMUP = 1000   # in terms of iterations. This is not affected by #GPUs
 _C.TRAIN.WARMUP_INIT_LR = 0.  # defined for total batch size=8. Otherwise it will be adjusted automatically
-_C.TRAIN.STEPS_PER_EPOCH = 5717 # !!! xiaoying bs=1 for voc
+
+# changed xiaoying !!!
+_C.TRAIN.BASE_LR = 1e-3  # defined for total batch size=8. Otherwise it will be adjusted automatically
+_C.TRAIN.STEPS_PER_EPOCH = 5717 # bs=1, so the para is set to number of train dataset 
+# !!!
 _C.TRAIN.STARTING_EPOCH = 1  # the first epoch to start with, useful to continue a training
 
 # LR_SCHEDULE means equivalent steps when the total batch size is 8.
@@ -152,8 +163,12 @@ _C.TRAIN.STARTING_EPOCH = 1  # the first epoch to start with, useful to continue
 # Therefore, there is *no need* to modify the config if you only change the number of GPUs.
 
 _C.TRAIN.LR_SCHEDULE = "1x"      # "1x" schedule in detectron
-_C.TRAIN.EVAL_PERIOD = 1 # !!!xiaoying  # period (epochs) to run evaluation
-_C.TRAIN.CHECKPOINT_PERIOD = 5  #!!! xiaoying period (epochs) to save model
+
+# changed xiaoying !!!
+_C.TRAIN.BASE_LR = 1e-3  # defined for total batch size=8. Otherwise it will be adjusted automatically
+_C.TRAIN.EVAL_PERIOD = 1  # period (epochs) to run evaluation
+_C.TRAIN.CHECKPOINT_PERIOD = 5  # period (epochs) to save model
+# !!!
 
 # preprocessing --------------------
 # Alternative old (worse & faster) setting: 600
@@ -192,7 +207,7 @@ _C.RPN.TEST_POST_NMS_TOPK = 1000   # if you encounter OOM in inference, set this
 # for FPN, #proposals per-level and #proposals after merging are (for now) the same
 # if FPN.PROPOSAL_MODE = 'Joint', these options have no effect
 _C.RPN.TRAIN_PER_LEVEL_NMS_TOPK = 2000
-_C.RPN.TEST_PER_LEVEL_NMS_TOPK = 1000 # !!! xiaoying
+_C.RPN.TEST_PER_LEVEL_NMS_TOPK = 1000
 
 # fastrcnn training ---------------------
 _C.FRCNN.BATCH_PER_IM = 512

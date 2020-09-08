@@ -26,8 +26,7 @@ class COCODetection(DatasetSplit):
     Mapping from the incontinuous COCO category id to an id in [1, #category]
     For your own coco-format, dataset, change this to an **empty dict**.
     """
-    COCO_id_to_category_id = {}
-    # COCO_id_to_category_id = {0:1,1:2,2:3,3:4,4:5,5:6,6:7,7:8,8:9,9:10,10:11,11:12,12:13,13:14,14:15,15:16,16:17,17:18,18:19,19:20} # !!! xiaoying for VOC2012
+    COCO_id_to_category_id={}
     #COCO_id_to_category_id = {13: 12, 14: 13, 15: 14, 16: 15, 17: 16, 18: 17, 19: 18, 20: 19, 21: 20, 22: 21, 23: 22, 24: 23, 25: 24, 27: 25, 28: 26, 31: 27, 32: 28, 33: 29, 34: 30, 35: 31, 36: 32, 37: 33, 38: 34, 39: 35, 40: 36, 41: 37, 42: 38, 43: 39, 44: 40, 46: 41, 47: 42, 48: 43, 49: 44, 50: 45, 51: 46, 52: 47, 53: 48, 54: 49, 55: 50, 56: 51, 57: 52, 58: 53, 59: 54, 60: 55, 61: 56, 62: 57, 63: 58, 64: 59, 65: 60, 67: 61, 70: 62, 72: 63, 73: 64, 74: 65, 75: 66, 76: 67, 77: 68, 78: 69, 79: 70, 80: 71, 81: 72, 82: 73, 84: 74, 85: 75, 86: 76, 87: 77, 88: 78, 89: 79, 90: 80}  # noqa
 
     def __init__(self, basedir, split):
@@ -161,7 +160,7 @@ class COCODetection(DatasetSplit):
             # Require non-zero seg area and more than 1x1 box size
             if obj['area'] > 1 and w > 0 and h > 0:
                 all_boxes.append([x1, y1, x2, y2])
-                all_cls.append(self.COCO_id_to_category_id.get(obj['category_id'], obj['category_id'])) # !!!xiaoying     if mod all_cls.append(self.COCO_id_to_category_id.get(obj['category_id'], obj['category_id']) + 1)
+                all_cls.append(self.COCO_id_to_category_id.get(obj['category_id'], obj['category_id']) + 1)
                 iscrowd = obj.get("iscrowd", 0)
                 all_iscrowd.append(iscrowd)
 
@@ -232,35 +231,33 @@ def register_coco(basedir):
     # For your own coco-format dataset, change this.
     #class_names = [
      #   "person", "bicycle", "car", "motorcycle", "airplane", "bus", "train", "truck", "boat", "traffic light", "fire hydrant", "stop sign", "parking meter", "bench", "bird", "cat", "dog", "horse", "sheep", "cow", "elephant", "bear", "zebra", "giraffe", "backpack", "umbrella", "handbag", "tie", "suitcase", "frisbee", "skis", "snowboard", "sports ball", "kite", "baseball bat", "baseball glove", "skateboard", "surfboard", "tennis racket", "bottle", "wine glass", "cup", "fork", "knife", "spoon", "bowl", "banana", "apple", "sandwich", "orange", "broccoli", "carrot", "hot dog", "pizza", "donut", "cake", "chair", "couch", "potted plant", "bed", "dining table", "toilet", "tv", "laptop", "mouse", "remote", "keyboard", "cell phone", "microwave", "oven", "toaster", "sink", "refrigerator", "book", "clock", "vase", "scissors", "teddy bear", "hair drier", "toothbrush"]  # noqa
-    # !!! xiaoying
     class_names = [
-        'aeroplane', # 0
-        'bicycle', # 1
-        'bird', # 2
-        'boat', # 3
-        'bottle', # 4
-        'bus', # 5
-        'car', # 6
-        'cat', # 7
-        'chair', # 8
-        'cow', # 9
-        'diningtable', # 10
-        'dog', # 11
-        'horse', # 12 
-        'motorbike', # 13
-        'person', # 14
-        'pottedplant', # 15
-        'sheep', # 16
-        'sofa', # 17
-        'train', # 18
-        'tvmonitor' # 19
+         'background',
+ 'aeroplane',
+ 'bicycle',
+ 'bird',
+ 'boat',
+ 'bottle',
+ 'bus',
+ 'car',
+ 'cat',
+ 'chair',
+ 'cow',
+ 'diningtable',
+ 'dog',
+ 'horse',
+ 'motorbike',
+ 'person',
+ 'pottedplant',
+ 'sheep',
+ 'sofa',
+ 'train',
+ 'tvmonitor'
      ]
     class_names = ["BG"] + class_names
-    print("!!! xiaoying class_names",class_names)
 
     for split in ["train2017", "val2017", "train2014", "val2014",
-                  "valminusminival2014", "minival2014", "val2017_100",
-                  "voctrain2012","vocval2012"]: #!!xiaoying
+                  "valminusminival2014", "minival2014", "val2017_100"]:
         name = "coco_" + split
         DatasetRegistry.register(name, lambda x=split: COCODetection(basedir, x))
         DatasetRegistry.register_metadata(name, 'class_names', class_names)

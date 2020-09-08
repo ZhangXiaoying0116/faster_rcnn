@@ -44,11 +44,11 @@ This is a minimal implementation that simply contains these files:
 
 <p align="center"> <img src="https://user-images.githubusercontent.com/1381301/31527740-2f1b38ce-af84-11e7-8de1-628e90089826.png"> </p>
 
-2. We use ROIAlign, and `tf.image.crop_and_resize` is __NOT__ ROIAlign.
+2. We use ROIAlign, and `tf.image.crop_and_resize` is __NOT__ ROIAlign. # !!!xiaoying???
 
-3. We currently only support single image per GPU in this example.
+3. We currently only support single image per GPU in this example. #!!!!xiaoying
 
-4. Because of (3), BatchNorm statistics are supposed to be freezed during fine-tuning.
+4. Because of (3), BatchNorm statistics are supposed to be freezed during fine-tuning.#!!!!xiaoying
 
 5. An alternative to freezing BatchNorm is to sync BatchNorm statistics across
    GPUs (the `BACKBONE.NORM=SyncBN` option).

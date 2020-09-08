@@ -14,9 +14,10 @@ from config import finalize_configs
 from data import get_train_dataflow
 from eval import EvalCallback
 from modeling.generalized_rcnn import ResNetC4Model, ResNetFPNModel
+# changed by xiaoying !!!
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"   # secode run
-
+os.environ["CUDA_VISIBLE_DEVICES"] = "7"   # secode run
+# !!!
 try:
     import horovod.tensorflow as hvd
 except ImportError:
@@ -31,8 +32,10 @@ if __name__ == '__main__':
     mp.set_start_method('spawn')
     parser = argparse.ArgumentParser()
     parser.add_argument('--load', help='Load a model to start training from. It overwrites BACKBONE.WEIGHTS')
+    # changed by xiaoying !!!
     parser.add_argument('--logdir', help='Log directory. Will remove the old one if already exists.',
                         default='train_log/fastrcnn_1e-3_right_version_voc2012')
+    # !!!
     parser.add_argument('--config', help="A list of KEY=VALUE to overwrite those defined in config.py", nargs='+')
 
     if get_tf_version_tuple() < (1, 6):

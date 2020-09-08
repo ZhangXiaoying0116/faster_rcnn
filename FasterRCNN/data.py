@@ -48,6 +48,10 @@ def print_class_histogram(roidbs):
         # filter crowd?
         gt_inds = np.where((entry["class"] > 0) & (entry["is_crowd"] == 0))[0]
         gt_classes = entry["class"][gt_inds]
+        print("gt_classes-->",gt_classes)
+        print("!!!xiaoying len(gt_classes)-->",len(gt_classes))
+        print("!!!xiaoying len(class_names) - 1-->",len(class_names) - 1)
+        print("gt_classes.max()-->",gt_classes.max())
         if len(gt_classes):
             assert gt_classes.max() <= len(class_names) - 1
         gt_hist += np.histogram(gt_classes, bins=hist_bins)[0]
